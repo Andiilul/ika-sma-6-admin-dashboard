@@ -29,6 +29,8 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->brandName('IKA SMA 6 Admin')
             ->login()
+            // ->passwordReset() // <-- ini yang nambah "Forgot password?"
+
             ->colors([
                 'primary' => Color::Amber,
             ])

@@ -1,9 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\AlumniController;
+use App\Http\Controllers\Api\v1\ActivityController;
+
 
 Route::prefix('v1')->group(function () {
+
     Route::post('auth/login', [AuthController::class, 'login'])
         ->middleware('throttle:auth-login');
 
@@ -13,4 +17,10 @@ Route::prefix('v1')->group(function () {
         Route::post('auth/logout-all', [AuthController::class, 'logoutAll']);
     });
 
+    // PUBLIC
+    Route::get('alumni', [AlumniController::class, 'index']);
+    Route::get('alumni/{alumni}', [AlumniController::class, 'show']);
+    // PUBLIC
+    Route::get('activity', [ActivityController::class, 'index']);
+    Route::get('activity/{activity}', [ActivityController::class, 'show']);
 });
