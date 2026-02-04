@@ -12,5 +12,14 @@ class CreateUsers extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+    protected function afterCreate(): void
+    {
+        $role = $this->data['spatie_role'] ?? null;
+
+        if ($role) {
+            $this->record->syncRoles([$role]);
+        }
+    }
+
 
 }

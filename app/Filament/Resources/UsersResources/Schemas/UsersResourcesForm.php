@@ -2,45 +2,44 @@
 
 namespace App\Filament\Resources\UsersResources\Schemas;
 
+use App\Models\User;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UsersResourcesForm
 {
     public static function configure(Schema $schema): Schema
     {
-        return $schema->components([
-            // CREATE ONLY
+        return $schema->schema([
             TextInput::make('name')
                 ->required()
-                ->visible(fn (string $operation) => $operation === 'create'),
+                ->maxLength(255),
 
             TextInput::make('email')
                 ->email()
                 ->required()
-                ->visible(fn (string $operation) => $operation === 'create'),
+                ->maxLength(255)
+                ->unique(ignoreRecord: true),
 
-            // CREATE & EDIT (tapi saat edit opsional, hanya update kalau diisi)
             TextInput::make('password')
-                ->label('Password')
                 ->password()
                 ->revealable()
-                ->autocomplete('new-password')
-                ->required(fn (string $operation) => $operation === 'create')
-                // penting: kalau kosong saat edit, jangan overwrite password lama
+                ->required(fn (string $context) => $context === 'create')
                 ->dehydrated(fn ($state) => filled($state))
-                ->confirmed(),
+                ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null),
 
-            TextInput::make('password_confirmation')
-                ->label('Konfirmasi Password')
-                ->password()
-                ->revealable()
-                ->autocomplete('new-password')
+            // Role hanya untuk state, tidak disimpan ke users.role
+            Select::make('spatie_role')
+                ->label('Role')
+                ->options(fn () => Role::where('guard_name', 'web')->pluck('name', 'name')->toArray())
+                ->required()
+                ->searchable()
+                ->preload()
                 ->dehydrated(false)
-                // create wajib, edit wajib hanya kalau password diisi
-                ->required(fn (string $operation, $get) =>
-                    $operation === 'create' || filled($get('password'))
-                ),
+                ->default(fn (?User $record) => $record?->getRoleNames()->first()),
         ]);
     }
 }

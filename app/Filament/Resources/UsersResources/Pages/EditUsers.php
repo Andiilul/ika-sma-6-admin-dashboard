@@ -16,9 +16,19 @@ class EditUsers extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function afterSave(): void
+    {
+        $role = $this->data['spatie_role'] ?? null;
+
+        if ($role) {
+            $this->record->syncRoles([$role]);
+        }
+    }
+
     protected function getRedirectUrl(): string
-{
-    return $this->getResource()::getUrl('index');
-}
+    {
+        return $this->getResource()::getUrl('index');
+    }
 
 }

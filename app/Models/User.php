@@ -14,9 +14,19 @@ class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    protected $fillable = ['name', 'email', 'password'];
+    // Important for Spatie role checks under session/web auth
+    protected $guard_name = 'web';
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     protected function casts(): array
     {
@@ -35,10 +45,9 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // TEMPORARY: allow all users (to confirm this is the blocker)
+        // TEMP DEBUG (deploy once): if this makes /admin work, the issue is role/permission
         // return true;
 
-        // Recommended: restrict to admins
-        return $this->hasAnyRole(['super_admin', 'admin']);
+        return $this->hasAnyRole(['super-admin']);
     }
 }

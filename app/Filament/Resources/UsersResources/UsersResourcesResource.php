@@ -37,18 +37,7 @@ class UsersResourcesResource extends Resource
     /**
      * AuthZ: hanya super-admin boleh lihat resource ini.
      */
-    public static function canViewAny(): bool
-    {
-        return Auth::user()?->hasRole('super-admin') ?? false;
-    }
 
-    /**
-     * Hide navigation untuk yang tidak berhak.
-     */
-    public static function shouldRegisterNavigation(): bool
-    {
-        return static::canViewAny();
-    }
 
     /**
      * Form & table config
@@ -71,33 +60,27 @@ class UsersResourcesResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListUsersResources::route('/'),
+            'index' => ListUsersResources::route('/'),
             'create' => CreateUsersResources::route('/create'),
-            'edit'   => EditUsersResources::route('/{record}/edit'),
+            'edit' => EditUsersResources::route('/{record}/edit'),
         ];
     }
 
-    /**
-     * Prevent delete super-admin.
-     * (Tetap boleh delete user lain, tapi hanya super-admin yang bisa akses resource anyway)
-     */
-    public static function canDelete(Model $record): bool
+    public static function canViewAny(): bool
     {
-        return ! $record->hasRole('super-admin');
+        return Auth::user()?->hasRole('super-admin') ?? false;
     }
 
+
     /**
-     * Optional: kalau kamu pakai bulk delete
+     * Hide navigation untuk yang tidak berhak.
      */
-    public static function canDeleteAny(): bool
+    public static function shouldRegisterNavigation(): bool
     {
         return static::canViewAny();
     }
 
-    /**
-     * Optional: kalau mau super-admin saja yang bisa create/edit juga
-     * (kalau resource ini memang hanya untuk super-admin, ini konsisten)
-     */
+
     public static function canCreate(): bool
     {
         return static::canViewAny();
@@ -107,4 +90,15 @@ class UsersResourcesResource extends Resource
     {
         return static::canViewAny();
     }
+
+    public static function canDelete(Model $record): bool
+    {
+        return static::canViewAny() && !$record->hasRole('super-admin');
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return static::canViewAny();
+    }
+
 }
