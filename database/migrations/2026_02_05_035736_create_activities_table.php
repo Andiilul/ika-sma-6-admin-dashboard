@@ -10,34 +10,29 @@ return new class extends Migration {
         Schema::create('activities', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->string('title');
+            $table->string('title', 255);
             $table->string('short_description', 255);
-
-            // RichEditor default output = HTML string
             $table->longText('description');
 
-            // "YYYY-MM-DD"
-            $table->date('date');
+            $table->date('date')->index();
+            $table->string('location', 255)->nullable();
 
-            $table->string('location')->nullable();
+            $table->string('image_path', 2048)->nullable();
 
-            // path/url thumbnail (nanti bisa FileUpload di Filament)
-            $table->string('image')->nullable();
+            $table->foreignId('created_by')->nullable();
+            $table->foreignId('updated_by')->nullable();
 
-            $table->foreignId('created_by')
-                ->nullable()
-                ->constrained('users')
+            $table->foreign('created_by', 'activities_created_by_fk')
+                ->references('id')->on('users')
                 ->nullOnDelete();
 
-            $table->foreignId('updated_by')
-                ->nullable()
-                ->constrained('users')
+            $table->foreign('updated_by', 'activities_updated_by_fk')
+                ->references('id')->on('users')
                 ->nullOnDelete();
 
             $table->timestamps();
-
-            $table->index('date');
         });
+
     }
 
     public function down(): void
