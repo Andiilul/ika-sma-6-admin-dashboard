@@ -2,43 +2,62 @@
 
 namespace App\Models;
 
+use App\Enums\UserRole;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasFactory;
+    use Notifiable;
 
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role',
+        'is_active',
+    ];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-    protected function casts(): array
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',        // auto-hash
+        'role' => UserRole::class,     // enum cast (int <-> enum)
+        'is_active' => 'boolean',
+    ];
+
+    public function isSuperAdmin(): bool
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->role === UserRole::SuperAdmin;
     }
 
-    protected $appends = ['role'];
-
-    public function getRoleAttribute(): ?string
+    public function isAdmin(): bool
     {
-        return $this->getRoleNames()->first();
+        return $this->role === UserRole::Admin;
     }
 
+    /**
+     * Siapa yang boleh login ke Filament panel.
+     * Superadmin & admin boleh, asal akun aktif.
+     */
     public function canAccessPanel(Panel $panel): bool
     {
-        // TEMPORARY: allow all users (to confirm this is the blocker)
-        // return true;
+        return $this->is_active && ($this->isSuperAdmin() || $this->isAdmin());
+    }
 
-        // Recommended: restrict to admins
-        return $this->hasAnyRole(['super_admin', 'admin']);
+    /**
+     * Opsional: nama yang tampil di UI Filament.
+     */
+    public function getFilamentName(): string
+    {
+        return $this->name;
     }
 }
