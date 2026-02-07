@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Alumnis\Pages;
 
 use App\Filament\Resources\Alumnis\AlumniResource;
 use Filament\Actions\DeleteAction;
+use Filament\Facades\Filament;
 use Filament\Resources\Pages\EditRecord;
 
 class EditAlumni extends EditRecord
@@ -16,8 +17,14 @@ class EditAlumni extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['updated_by'] = Filament::auth()->id();
+        return $data;
+    }
     protected function getRedirectUrl(): string
-{
-    return $this->getResource()::getUrl('index');
-}
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

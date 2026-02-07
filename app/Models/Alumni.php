@@ -27,9 +27,11 @@ class Alumni extends Model
         'location',
         'hobby',
         'contact_number',
-        'image_path',   // atau image_url
+        'email',        // <--- tambahkan ini
+        'image_path',
         'updated_by',
     ];
+
 
     protected $casts = [
         'graduation_year' => 'integer',
@@ -45,8 +47,13 @@ class Alumni extends Model
     {
         return $this->updatedBy?->email;
     }
-     protected static function booted(): void
+    protected static function booted(): void
     {
+        static::saving(function (Alumni $alumni) {
+            if (auth()->check()) {
+                $alumni->updated_by = auth()->id();
+            }
+        });
         // Saat record dihapus -> hapus file
         static::deleting(function (Alumni $alumni) {
             if ($alumni->image_path) {

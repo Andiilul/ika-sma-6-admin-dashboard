@@ -2,11 +2,15 @@
 
 namespace App\Filament\Resources\Alumnis\Schemas;
 
+use Filament\Facades\Filament;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Placeholder;
+
 
 class AlumniForm
 {
@@ -32,6 +36,12 @@ class AlumniForm
                     'female' => 'Female',
                 ])
                 ->required(),
+            TextInput::make('email')
+                ->label('Email')
+                ->email()
+                ->maxLength(255)
+                ->unique(table: 'alumnis', column: 'email', ignoreRecord: true)
+                ->nullable(),
 
             TextInput::make('graduation_year')
                 ->label('Graduation Year')
@@ -82,6 +92,9 @@ class AlumniForm
             TextInput::make('hobby')
                 ->maxLength(255)
                 ->nullable(),
+            TextInput::make('')
+                ->maxLength(255)
+                ->nullable(),
 
             TextInput::make('contact_number')
                 ->label('Contact Number')
@@ -115,11 +128,16 @@ class AlumniForm
                 ->imageResizeTargetHeight(600),
 
             // SYSTEM
-            TextInput::make('updated_by')
+            Hidden::make('updated_by')
+                ->default(fn() => Filament::auth()->id()),
+
+            Placeholder::make('updated_by_email')
                 ->label('Updated By')
-                ->disabled()
-                ->dehydrated(false)
-                ->default(fn() => auth()->user()?->name),
+                ->content(function ($record) {
+                    return $record?->updatedBy?->email
+                        ?? Filament::auth()->user()?->email
+                        ?? '-';
+                }),
         ]);
     }
 }

@@ -51,6 +51,12 @@ class Activity extends Model
         });
 
         static::updating(function (Activity $activity) {
+
+            static::saving(function (Alumni $alumni) {
+                if (auth()->check()) {
+                    $alumni->updated_by = auth()->id();
+                }
+            });
             if ($activity->isDirty('image_path')) {
                 $old = $activity->getOriginal('image_path');
                 if ($old) {

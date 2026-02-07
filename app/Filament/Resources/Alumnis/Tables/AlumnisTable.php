@@ -46,8 +46,14 @@ class AlumnisTable
 
                 Tables\Columns\TextColumn::make('email')
                     ->searchable()
+                    ->label('Email')
                     ->toggleable(isToggledHiddenByDefault: true),
-
+                Tables\Columns\TextColumn::make('updatedBy.email')
+                    ->label('Updated By')
+                    ->searchable(query: function ($query, string $search): void {
+                        $query->whereHas('updatedBy', fn($q) => $q->where('email', 'like', "%{$search}%"));
+                    })
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('phone')
                     ->toggleable(isToggledHiddenByDefault: true),
 
