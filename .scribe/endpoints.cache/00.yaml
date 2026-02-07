@@ -213,7 +213,7 @@ endpoints:
         name: location
         description: ''
         required: false
-        example: makassar
+        example: non-makassar
         type: string
         enumValues:
           - makassar
@@ -234,7 +234,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       graduation_year: 16
-      location: makassar
+      location: non-makassar
       per_page: 22
     fileParameters: []
     responses:
@@ -278,14 +278,14 @@ endpoints:
         name: alumni_id
         description: 'The ID of the alumni.'
         required: true
-        example: 019c1c49-4bbb-70b8-9910-4cfe4a0b2a86
+        example: 019c2c17-45d6-70bd-9410-adcff46620af
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      alumni_id: 019c1c49-4bbb-70b8-9910-4cfe4a0b2a86
+      alumni_id: 019c2c17-45d6-70bd-9410-adcff46620af
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -295,7 +295,154 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"status":"success","data":{"id":"019c1c49-4bbb-70b8-9910-4cfe4a0b2a86","name":"El Chanasasa","nisn":"12312312","graduation_year":2022,"location":"non-makassar","ethnicity":null,"domicile":"Kota Apa ya","address":null,"profession":"kospleyer","position":null,"hobby":"cospla lah","contact_number":"211239012903","image_url":"http:\/\/ika-sma-6-admin-dashboard.test\/storage\/alumni\/01KGE4JJX8G9AM6NB9N5C9KCKY.jpg"}}'
+        content: '{"status":"success","data":{"id":"019c2c17-45d6-70bd-9410-adcff46620af","name":"El Chan cantik","nisn":"1232123","graduation_year":2003,"location":"non-makassar","ethnicity":"Jowo Keknyo","domicile":"Jowo keknyo","address":null,"profession":"Cosplayer","position":"Cosplayer apa ya","hobby":"Ngecosplay lah","contact_number":"085343675435","image_url":"http:\/\/ika-sma-6-admin-dashboard.test\/storage\/alumni\/01KGP1EHDJWGQ8A36X6PC9BK49.jpg"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/activity
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        GET /api/v1/activity
+        Public list with filters & pagination
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      location:
+        custom: []
+        name: location
+        description: ''
+        required: false
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      from:
+        custom: []
+        name: from
+        description: 'or restrict with in:... if you have fixed enums. Must be a valid date.'
+        required: false
+        example: '2026-02-07T09:11:10'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      to:
+        custom: []
+        name: to
+        description: 'Must be a valid date. Must be a date after or equal to <code>from</code>.'
+        required: false
+        example: '2052-03-02'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Must be at least 1. Must not be greater than 100.'
+        required: false
+        example: 22
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      location: architecto
+      from: '2026-02-07T09:11:10'
+      to: '2052-03-02'
+      per_page: 22
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"status":"success","data":{"current_page":1,"data":[],"first_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/activity?page=1","from":null,"last_page":1,"last_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/activity?page=1","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/activity?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"next_page_url":null,"path":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/activity","per_page":22,"prev_page_url":null,"to":null,"total":0}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/activity/{activity_id}'
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        GET /api/v1/activity/{id}
+        Public detail
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      activity_id:
+        custom: []
+        name: activity_id
+        description: 'The ID of the activity.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      activity_id: architecto
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+              "message": "No query results for model [App\\Models\\Activity] architecto"
+          }
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json

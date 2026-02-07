@@ -91,6 +91,14 @@ Public list with filters & pagination</a>
                                 <a href="#endpoints-GETapi-v1-alumni--alumni_id-">GET /api/v1/alumni/{id}
 Public detail</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-activity">
+                                <a href="#endpoints-GETapi-v1-activity">GET /api/v1/activity
+Public list with filters & pagination</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-activity--activity_id-">
+                                <a href="#endpoints-GETapi-v1-activity--activity_id-">GET /api/v1/activity/{id}
+Public detail</a>
+                            </li>
                                                                         </ul>
                             </ul>
             </div>
@@ -102,7 +110,7 @@ Public detail</a>
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: February 2, 2026</li>
+        <li>Last updated: February 7, 2026</li>
     </ul>
 </div>
 
@@ -650,7 +658,7 @@ Public list with filters &amp; pagination</h2>
     --header "Accept: application/json" \
     --data "{
     \"graduation_year\": 16,
-    \"location\": \"makassar\",
+    \"location\": \"non-makassar\",
     \"per_page\": 22
 }"
 </code></pre></div>
@@ -668,7 +676,7 @@ const headers = {
 
 let body = {
     "graduation_year": 16,
-    "location": "makassar",
+    "location": "non-makassar",
     "per_page": 22
 };
 
@@ -823,10 +831,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="location"                data-endpoint="GETapi-v1-alumni"
-               value="makassar"
+               value="non-makassar"
                data-component="body">
     <br>
-<p>Example: <code>makassar</code></p>
+<p>Example: <code>non-makassar</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>makassar</code></li> <li><code>non-makassar</code></li></ul>
         </div>
@@ -858,14 +866,14 @@ Public detail</h2>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://ika-sma-6-admin-dashboard.test/api/v1/alumni/019c1c49-4bbb-70b8-9910-4cfe4a0b2a86" \
+    --get "http://ika-sma-6-admin-dashboard.test/api/v1/alumni/019c2c17-45d6-70bd-9410-adcff46620af" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://ika-sma-6-admin-dashboard.test/api/v1/alumni/019c1c49-4bbb-70b8-9910-4cfe4a0b2a86"
+    "http://ika-sma-6-admin-dashboard.test/api/v1/alumni/019c2c17-45d6-70bd-9410-adcff46620af"
 );
 
 const headers = {
@@ -896,19 +904,19 @@ access-control-allow-origin: *
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;data&quot;: {
-        &quot;id&quot;: &quot;019c1c49-4bbb-70b8-9910-4cfe4a0b2a86&quot;,
-        &quot;name&quot;: &quot;El Chanasasa&quot;,
-        &quot;nisn&quot;: &quot;12312312&quot;,
-        &quot;graduation_year&quot;: 2022,
+        &quot;id&quot;: &quot;019c2c17-45d6-70bd-9410-adcff46620af&quot;,
+        &quot;name&quot;: &quot;El Chan cantik&quot;,
+        &quot;nisn&quot;: &quot;1232123&quot;,
+        &quot;graduation_year&quot;: 2003,
         &quot;location&quot;: &quot;non-makassar&quot;,
-        &quot;ethnicity&quot;: null,
-        &quot;domicile&quot;: &quot;Kota Apa ya&quot;,
+        &quot;ethnicity&quot;: &quot;Jowo Keknyo&quot;,
+        &quot;domicile&quot;: &quot;Jowo keknyo&quot;,
         &quot;address&quot;: null,
-        &quot;profession&quot;: &quot;kospleyer&quot;,
-        &quot;position&quot;: null,
-        &quot;hobby&quot;: &quot;cospla lah&quot;,
-        &quot;contact_number&quot;: &quot;211239012903&quot;,
-        &quot;image_url&quot;: &quot;http://ika-sma-6-admin-dashboard.test/storage/alumni/01KGE4JJX8G9AM6NB9N5C9KCKY.jpg&quot;
+        &quot;profession&quot;: &quot;Cosplayer&quot;,
+        &quot;position&quot;: &quot;Cosplayer apa ya&quot;,
+        &quot;hobby&quot;: &quot;Ngecosplay lah&quot;,
+        &quot;contact_number&quot;: &quot;085343675435&quot;,
+        &quot;image_url&quot;: &quot;http://ika-sma-6-admin-dashboard.test/storage/alumni/01KGP1EHDJWGQ8A36X6PC9BK49.jpg&quot;
     }
 }</code>
  </pre>
@@ -992,10 +1000,375 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="alumni_id"                data-endpoint="GETapi-v1-alumni--alumni_id-"
-               value="019c1c49-4bbb-70b8-9910-4cfe4a0b2a86"
+               value="019c2c17-45d6-70bd-9410-adcff46620af"
                data-component="url">
     <br>
-<p>The ID of the alumni. Example: <code>019c1c49-4bbb-70b8-9910-4cfe4a0b2a86</code></p>
+<p>The ID of the alumni. Example: <code>019c2c17-45d6-70bd-9410-adcff46620af</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="endpoints-GETapi-v1-activity">GET /api/v1/activity
+Public list with filters &amp; pagination</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-activity">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://ika-sma-6-admin-dashboard.test/api/v1/activity" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"location\": \"architecto\",
+    \"from\": \"2026-02-07T09:11:10\",
+    \"to\": \"2052-03-02\",
+    \"per_page\": 22
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://ika-sma-6-admin-dashboard.test/api/v1/activity"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "location": "architecto",
+    "from": "2026-02-07T09:11:10",
+    "to": "2052-03-02",
+    "per_page": 22
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-activity">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;data&quot;: {
+        &quot;current_page&quot;: 1,
+        &quot;data&quot;: [],
+        &quot;first_page_url&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/activity?page=1&quot;,
+        &quot;from&quot;: null,
+        &quot;last_page&quot;: 1,
+        &quot;last_page_url&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/activity?page=1&quot;,
+        &quot;links&quot;: [
+            {
+                &quot;url&quot;: null,
+                &quot;label&quot;: &quot;&amp;laquo; Previous&quot;,
+                &quot;page&quot;: null,
+                &quot;active&quot;: false
+            },
+            {
+                &quot;url&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/activity?page=1&quot;,
+                &quot;label&quot;: &quot;1&quot;,
+                &quot;page&quot;: 1,
+                &quot;active&quot;: true
+            },
+            {
+                &quot;url&quot;: null,
+                &quot;label&quot;: &quot;Next &amp;raquo;&quot;,
+                &quot;page&quot;: null,
+                &quot;active&quot;: false
+            }
+        ],
+        &quot;next_page_url&quot;: null,
+        &quot;path&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/activity&quot;,
+        &quot;per_page&quot;: 22,
+        &quot;prev_page_url&quot;: null,
+        &quot;to&quot;: null,
+        &quot;total&quot;: 0
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-activity" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-activity"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-activity"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-activity" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-activity">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-activity" data-method="GET"
+      data-path="api/v1/activity"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-activity', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-activity"
+                    onclick="tryItOut('GETapi-v1-activity');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-activity"
+                    onclick="cancelTryOut('GETapi-v1-activity');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-activity"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/activity</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-activity"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-activity"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>location</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="location"                data-endpoint="GETapi-v1-activity"
+               value="architecto"
+               data-component="body">
+    <br>
+<p>Example: <code>architecto</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>from</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="from"                data-endpoint="GETapi-v1-activity"
+               value="2026-02-07T09:11:10"
+               data-component="body">
+    <br>
+<p>or restrict with in:... if you have fixed enums. Must be a valid date. Example: <code>2026-02-07T09:11:10</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="to"                data-endpoint="GETapi-v1-activity"
+               value="2052-03-02"
+               data-component="body">
+    <br>
+<p>Must be a valid date. Must be a date after or equal to <code>from</code>. Example: <code>2052-03-02</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="per_page"                data-endpoint="GETapi-v1-activity"
+               value="22"
+               data-component="body">
+    <br>
+<p>Must be at least 1. Must not be greater than 100. Example: <code>22</code></p>
+        </div>
+        </form>
+
+                    <h2 id="endpoints-GETapi-v1-activity--activity_id-">GET /api/v1/activity/{id}
+Public detail</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-activity--activity_id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://ika-sma-6-admin-dashboard.test/api/v1/activity/architecto" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://ika-sma-6-admin-dashboard.test/api/v1/activity/architecto"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-activity--activity_id-">
+            <blockquote>
+            <p>Example response (404):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;No query results for model [App\\Models\\Activity] architecto&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-activity--activity_id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-activity--activity_id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-activity--activity_id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-activity--activity_id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-activity--activity_id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-activity--activity_id-" data-method="GET"
+      data-path="api/v1/activity/{activity_id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-activity--activity_id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-activity--activity_id-"
+                    onclick="tryItOut('GETapi-v1-activity--activity_id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-activity--activity_id-"
+                    onclick="cancelTryOut('GETapi-v1-activity--activity_id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-activity--activity_id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/activity/{activity_id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-activity--activity_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-activity--activity_id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>activity_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="activity_id"                data-endpoint="GETapi-v1-activity--activity_id-"
+               value="architecto"
+               data-component="url">
+    <br>
+<p>The ID of the activity. Example: <code>architecto</code></p>
             </div>
                     </form>
 
