@@ -3,34 +3,65 @@
         <x-slot name="heading">Session</x-slot>
 
         <style>
+            /* ===== Theme tokens (light default) ===== */
+            .ika-sess {
+                --ika-border: rgba(0, 0, 0, .10);
+                --ika-bg: rgba(0, 0, 0, .02);
+                --ika-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+
+                --ika-title: rgba(17, 24, 39, .70);
+                /* slate-900-ish */
+                --ika-text: rgba(17, 24, 39, .92);
+                --ika-sub: rgba(17, 24, 39, .60);
+
+                --ika-accent: #16a34a;
+                /* green-600 (aman di light) */
+                --ika-accent-bg: rgba(22, 163, 74, .12);
+            }
+
+            /* ===== Dark theme overrides (Filament biasanya pakai class .dark) ===== */
+            .dark .ika-sess {
+                --ika-border: rgba(255, 255, 255, .08);
+                --ika-bg: rgba(255, 255, 255, .03);
+                --ika-shadow: 0 2px 10px rgba(0, 0, 0, .18);
+
+                --ika-title: rgba(255, 255, 255, .75);
+                --ika-text: #fff;
+                --ika-sub: rgba(255, 255, 255, .55);
+
+                --ika-accent: #34d399;
+                /* emerald-400 */
+                --ika-accent-bg: rgba(52, 211, 153, .14);
+            }
+
             /* ===== Layout (NO Tailwind) ===== */
             .ika-grid-3 {
                 display: grid;
-                grid-template-columns: 1fr; /* mobile: 1 kolom */
+                grid-template-columns: 1fr;
                 gap: 16px;
             }
 
             @media (min-width: 1024px) {
                 .ika-grid-3 {
-                    grid-template-columns: repeat(3, minmax(0, 1fr)); /* desktop: 3 kolom */
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
                 }
             }
 
             /* ===== Card style ===== */
             .ika-card {
-                min-width: 0; /* penting biar text panjang (email) gak ngerusak grid */
-                border: 1px solid rgba(255, 255, 255, .08);
-                background: rgba(255, 255, 255, .03);
+                min-width: 0;
+                border: 1px solid var(--ika-border);
+                background: var(--ika-bg);
                 border-radius: 16px;
                 padding: 18px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, .18);
+                box-shadow: var(--ika-shadow);
                 min-height: 140px;
             }
 
             .ika-title {
                 font-size: 13px;
                 font-weight: 600;
-                color: rgba(255, 255, 255, .75);
+                color: var(--ika-title);
                 letter-spacing: .2px;
             }
 
@@ -38,7 +69,7 @@
                 margin-top: 10px;
                 font-size: 34px;
                 font-weight: 700;
-                color: #fff;
+                color: var(--ika-text);
                 line-height: 1.1;
                 word-break: break-word;
             }
@@ -48,7 +79,7 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                color: #34d399;
+                color: var(--ika-accent);
                 font-size: 13px;
                 font-weight: 600;
                 min-width: 0;
@@ -61,8 +92,9 @@
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                background: rgba(52, 211, 153, .14);
+                background: var(--ika-accent-bg);
                 flex: 0 0 auto;
+                color: var(--ika-accent);
             }
 
             .ika-icon svg {
@@ -74,7 +106,7 @@
             .ika-sub {
                 margin-top: 6px;
                 font-size: 12px;
-                color: rgba(255, 255, 255, .55);
+                color: var(--ika-sub);
             }
 
             .ika-truncate {
@@ -85,13 +117,23 @@
             }
         </style>
 
-        <div
-            x-data="{
+        <div x-data="{
                 now: new Date(),
                 loginAt: {{ $loginAt ? "new Date('{$loginAt->toIso8601String()}')" : "null" }},
                 tick() { this.now = new Date(); },
                 timeOnly() {
                     return this.now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                },
+                loginAtText() {
+                if (!this.loginAt) return '-';
+                return this.loginAt.toLocaleString('id-ID', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                });
                 },
                 dateOnly() {
                     return this.now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -104,9 +146,7 @@
                     const m = Math.floor(s / 60); s %= 60;
                     return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
                 },
-            }"
-            x-init="setInterval(() => tick(), 1000)"
-        >
+            }" x-init="setInterval(() => tick(), 1000)">
             <div class="ika-grid-3">
                 {{-- CARD 1: Welcome --}}
                 <div class="ika-card">
@@ -151,9 +191,7 @@
 
                     <div class="ika-sub">
                         Login sejak:
-                        <span style="color: rgba(255,255,255,.8); font-weight: 600;">
-                            {{ $loginAt ? $loginAt->format('d M Y, H:i:s') : '-' }}
-                        </span>
+                        <span style="color: var(--ika-text); font-weight: 600;" x-text="loginAtText()"></span>
                     </div>
                 </div>
 

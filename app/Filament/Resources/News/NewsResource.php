@@ -21,6 +21,8 @@ class NewsResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNewspaper;
 
     protected static ?string $recordTitleAttribute = 'News';
+    protected static ?string $navigationLabel = 'Berita';
+
 
     public static function form(Schema $schema): Schema
     {

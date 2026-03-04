@@ -14,11 +14,20 @@
       }
     </style>
 
+    {{-- SESSION WIDGETS --}}
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
       @foreach ($this->sessionWidgets() as $widget)
         @livewire($widget)
       @endforeach
     </div>
+
+    {{-- NEW: KOPERASI / FUND TRANSACTIONS (dibawah session) --}}
+    <x-filament::section heading="Koperasi - Laporan Keuangan">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        @livewire(\App\Filament\Resources\FundTransactions\Widgets\FundMonthlyReportStats::class)
+        @livewire(\App\Filament\Resources\FundTransactions\Widgets\FundYearlyReportStats::class)
+      </div>
+    </x-filament::section>
 
     <x-filament::section heading="Alumni">
       <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">

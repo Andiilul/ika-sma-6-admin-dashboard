@@ -174,6 +174,182 @@ endpoints:
     custom: []
     httpMethods:
       - GET
+    uri: api/v1/funds/summary
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        GET /api/v1/funds/summary
+        Response: total pemasukan, total pengeluaran, total keseluruhan (net) dalam range tanggal.
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      from:
+        custom: []
+        name: from
+        description: 'Must be a valid date.'
+        required: false
+        example: '2026-03-04T04:20:46'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      until:
+        custom: []
+        name: until
+        description: 'YYYY-MM-DD. Must be a valid date.'
+        required: false
+        example: '2026-03-04T04:20:46'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      from: '2026-03-04T04:20:46'
+      until: '2026-03-04T04:20:46'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"status":"success","data":{"from":"2026-03-04T04:20:46","until":"2026-03-04T04:20:46","total_pemasukan":0,"total_pengeluaran":0,"total_keseluruhan":0}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/news
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        GET /api/v1/news
+        Public list (ONLY published). No content.
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Must be at least 1. Must not be greater than 100.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      per_page: 1
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"status":"success","data":{"current_page":1,"data":[{"id":1,"title":"Berita Terkini","slug":"berita-terkini","excerpt":"cuma berita sampel","published_at":"2026-03-04T04:20:35.000000Z","og_image_url":null,"author":{"id":1,"name":"Super Admin"}}],"first_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news?page=1","from":1,"last_page":1,"last_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news?page=1","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"next_page_url":null,"path":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news","per_page":1,"prev_page_url":null,"to":1,"total":1}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/news/{slug}'
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        GET /api/v1/news/{slug}
+        Public detail by slug.
+      description: |-
+        - 404 if not found
+        - 403 if found but not published/public
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      slug:
+        custom: []
+        name: slug
+        description: 'The slug of the news.'
+        required: true
+        example: berita-terkini
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      slug: berita-terkini
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"status":"success","data":{"id":1,"title":"Berita Terkini","slug":"berita-terkini","excerpt":"cuma berita sampel","content":"<p>Ini adalah Berita ku<\/p>","published_at":"2026-03-04T04:20:35.000000Z","meta_title":null,"meta_description":null,"og_image_url":null,"author":{"id":1,"name":"Super Admin"},"created_at":"2026-03-04T04:20:35.000000Z","updated_at":"2026-03-04T04:20:35.000000Z"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
     uri: api/v1/alumni
     metadata:
       custom: []
@@ -211,7 +387,7 @@ endpoints:
         name: location
         description: ''
         required: false
-        example: non-makassar
+        example: makassar
         type: string
         enumValues:
           - makassar
@@ -232,7 +408,7 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       graduation_year: 16
-      location: non-makassar
+      location: makassar
       per_page: 22
     fileParameters: []
     responses:
@@ -276,14 +452,14 @@ endpoints:
         name: alumni_id
         description: 'The ID of the alumni.'
         required: true
-        example: 019c2c17-45d6-70bd-9410-adcff46620af
+        example: 019c3926-a142-701a-afbc-79e6b1189188
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      alumni_id: 019c2c17-45d6-70bd-9410-adcff46620af
+      alumni_id: 019c3926-a142-701a-afbc-79e6b1189188
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -293,7 +469,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"status":"success","data":{"id":"019c2c17-45d6-70bd-9410-adcff46620af","name":"El Chan cantik","nisn":"1232123","graduation_year":2003,"location":"non-makassar","ethnicity":"Jowo Keknyo","domicile":"Jowo keknyo","address":null,"profession":"Cosplayer","position":"Cosplayer apa ya","hobby":"Ngecosplay lah","contact_number":"085343675435","image_url":"http:\/\/ika-sma-6-admin-dashboard.test\/storage\/alumni\/01KGP1EHDJWGQ8A36X6PC9BK49.jpg"}}'
+        content: '{"status":"success","data":{"id":"019c3926-a142-701a-afbc-79e6b1189188","name":"Andi M Fadhilul Asyam Hafid","nisn":"213","graduation_year":2012,"location":"non-makassar","ethnicity":null,"domicile":null,"address":"Vida View Apartment, Jl. Topaz Raya, Masale, Panakkukang, Masale, Panakkukang, Kota Makassar, Sulawesi Selatan 90231","profession":null,"position":null,"hobby":null,"contact_number":"0811447077","image_url":null}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -345,7 +521,7 @@ endpoints:
         name: from
         description: 'or restrict with in:... if you have fixed enums. Must be a valid date.'
         required: false
-        example: '2026-02-07T09:11:10'
+        example: '2026-03-04T04:20:46'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -356,7 +532,7 @@ endpoints:
         name: to
         description: 'Must be a valid date. Must be a date after or equal to <code>from</code>.'
         required: false
-        example: '2052-03-02'
+        example: '2052-03-27'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -375,8 +551,8 @@ endpoints:
         deprecated: false
     cleanBodyParameters:
       location: architecto
-      from: '2026-02-07T09:11:10'
-      to: '2052-03-02'
+      from: '2026-03-04T04:20:46'
+      to: '2052-03-27'
       per_page: 22
     fileParameters: []
     responses:
@@ -441,6 +617,225 @@ endpoints:
           {
               "message": "No query results for model [App\\Models\\Activity] architecto"
           }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/members
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        GET /api/v1/members
+        Public list (pagination)
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Must be at least 1. Must not be greater than 100.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      per_page: 1
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"status":"success","data":{"current_page":1,"data":[],"first_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members?page=1","from":null,"last_page":1,"last_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members?page=1","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"next_page_url":null,"path":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members","per_page":1,"prev_page_url":null,"to":null,"total":0}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/members/{member_id}'
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        GET /api/v1/members/{member}
+        Public detail by id (uuid)
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      member_id:
+        custom: []
+        name: member_id
+        description: 'The ID of the member.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      member_id: architecto
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+              "message": "The route api/v1/members/architecto could not be found."
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/mitra
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        GET /api/v1/mitra
+        Public list (pagination)
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      per_page:
+        custom: []
+        name: per_page
+        description: 'Must be at least 1. Must not be greater than 100.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      per_page: 1
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"status":"success","data":{"current_page":1,"data":[],"first_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra?page=1","from":null,"last_page":1,"last_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra?page=1","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"next_page_url":null,"path":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra","per_page":1,"prev_page_url":null,"to":null,"total":0}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/mitra/{slug}'
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        GET /api/v1/mitra/{slug}
+        Public detail by slug
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      slug:
+        custom: []
+        name: slug
+        description: 'The slug of the mitra.'
+        required: true
+        example: vjr
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      slug: vjr
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 404
+        content: '{"status":"error","message":"Mitra not found."}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json

@@ -22,6 +22,8 @@ class AlumniResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'Alumni';
 
+    protected static ?string $navigationLabel = 'Alumni';
+
     public static function form(Schema $schema): Schema
     {
         return AlumniForm::configure($schema);
