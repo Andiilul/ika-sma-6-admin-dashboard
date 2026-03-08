@@ -10,11 +10,12 @@ class KoperasiMitraController extends Controller
 {
     /**
      * GET /api/v1/mitra
-     * Public list (pagination)
+     * Public list with pagination + optional search by name
      */
     public function index(Request $request)
     {
         $validated = $request->validate([
+            'search_name' => ['nullable', 'string', 'max:255'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
         ]);
 
@@ -29,11 +30,16 @@ class KoperasiMitraController extends Controller
                 'created_at',
                 'updated_at',
             ])
+            ->when(
+                $validated['search_name'] ?? null,
+                fn ($q, $searchName) =>
+                $q->where('name', 'like', '%' . $searchName . '%')
+            )
             ->orderBy('name');
 
         $paginator = $query->paginate($validated['per_page'] ?? 15);
 
-        $paginator->getCollection()->transform(function (KoperasiMitra $m) {
+        $items = $paginator->getCollection()->map(function (KoperasiMitra $m) {
             return [
                 'id' => $m->id,
                 'name' => $m->name,
@@ -44,11 +50,18 @@ class KoperasiMitraController extends Controller
                 'created_at' => $m->created_at?->toISOString(),
                 'updated_at' => $m->updated_at?->toISOString(),
             ];
-        });
+        })->values();
 
         return response()->json([
             'status' => 'success',
-            'data' => $paginator,
+            'data' => $items,
+            'pagination' => [
+                'current_page' => $paginator->currentPage(),
+                'last_page' => $paginator->lastPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'has_more_pages' => $paginator->hasMorePages(),
+            ],
         ]);
     }
 

@@ -181,10 +181,16 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: |-
-        GET /api/v1/funds/summary
-        Response: total pemasukan, total pengeluaran, total keseluruhan (net) dalam range tanggal.
-      description: ''
+      title: 'GET /api/v1/funds/summary'
+      description: |-
+        Query params:
+        - from   (nullable, YYYY-MM-DD)
+        - until  (nullable, YYYY-MM-DD)
+        - year   (nullable, integer)
+
+        Response:
+        - summary_periode  => sesuai range from/until
+        - summary_tahunan  => sesuai year
       authenticated: false
       deprecated: false
     headers:
@@ -200,7 +206,7 @@ endpoints:
         name: from
         description: 'Must be a valid date.'
         required: false
-        example: '2026-03-04T04:20:46'
+        example: '2026-03-07T23:52:33'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -209,23 +215,35 @@ endpoints:
       until:
         custom: []
         name: until
-        description: 'YYYY-MM-DD. Must be a valid date.'
+        description: 'Must be a valid date.'
         required: false
-        example: '2026-03-04T04:20:46'
+        example: '2026-03-07T23:52:33'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         deprecated: false
+      year:
+        custom: []
+        name: year
+        description: 'Must be at least 2000. Must not be greater than 2100.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
     cleanBodyParameters:
-      from: '2026-03-04T04:20:46'
-      until: '2026-03-04T04:20:46'
+      from: '2026-03-07T23:52:33'
+      until: '2026-03-07T23:52:33'
+      year: 1
     fileParameters: []
     responses:
       -
         custom: []
-        status: 200
-        content: '{"status":"success","data":{"from":"2026-03-04T04:20:46","until":"2026-03-04T04:20:46","total_pemasukan":0,"total_pengeluaran":0,"total_keseluruhan":0}}'
+        status: 422
+        content: '{"message":"The year field must be at least 2000.","errors":{"year":["The year field must be at least 2000."]}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -272,14 +290,62 @@ endpoints:
         exampleWasSpecified: false
         nullable: true
         deprecated: false
+      search_title:
+        custom: []
+        name: search_title
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: 'n'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      search_author:
+        custom: []
+        name: search_author
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: g
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      date_from:
+        custom: []
+        name: date_from
+        description: 'Must be a valid date.'
+        required: false
+        example: '2026-03-07T23:52:33'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      date_to:
+        custom: []
+        name: date_to
+        description: 'Must be a valid date. Must be a date after or equal to <code>date_from</code>.'
+        required: false
+        example: '2052-03-30'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
     cleanBodyParameters:
       per_page: 1
+      search_title: 'n'
+      search_author: g
+      date_from: '2026-03-07T23:52:33'
+      date_to: '2052-03-30'
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"status":"success","data":{"current_page":1,"data":[{"id":1,"title":"Berita Terkini","slug":"berita-terkini","excerpt":"cuma berita sampel","published_at":"2026-03-04T04:20:35.000000Z","og_image_url":null,"author":{"id":1,"name":"Super Admin"}}],"first_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news?page=1","from":1,"last_page":1,"last_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news?page=1","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"next_page_url":null,"path":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news","per_page":1,"prev_page_url":null,"to":1,"total":1}}'
+        content: '{"status":"success","data":{"current_page":1,"data":[],"first_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news?page=1","from":null,"last_page":1,"last_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news?page=1","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"next_page_url":null,"path":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/news","per_page":1,"prev_page_url":null,"to":null,"total":0}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -371,6 +437,28 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
+      search_name:
+        custom: []
+        name: search_name
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: b
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      search_nisn:
+        custom: []
+        name: search_nisn
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: 'n'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
       graduation_year:
         custom: []
         name: graduation_year
@@ -395,6 +483,19 @@ endpoints:
         exampleWasSpecified: false
         nullable: true
         deprecated: false
+      gender:
+        custom: []
+        name: gender
+        description: ''
+        required: false
+        example: male
+        type: string
+        enumValues:
+          - male
+          - female
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
       per_page:
         custom: []
         name: per_page
@@ -407,8 +508,11 @@ endpoints:
         nullable: true
         deprecated: false
     cleanBodyParameters:
+      search_name: b
+      search_nisn: 'n'
       graduation_year: 16
       location: makassar
+      gender: male
       per_page: 22
     fileParameters: []
     responses:
@@ -469,7 +573,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"status":"success","data":{"id":"019c3926-a142-701a-afbc-79e6b1189188","name":"Andi M Fadhilul Asyam Hafid","nisn":"213","graduation_year":2012,"location":"non-makassar","ethnicity":null,"domicile":null,"address":"Vida View Apartment, Jl. Topaz Raya, Masale, Panakkukang, Masale, Panakkukang, Kota Makassar, Sulawesi Selatan 90231","profession":null,"position":null,"hobby":null,"contact_number":"0811447077","image_url":null}}'
+        content: '{"status":"success","data":{"id":"019c3926-a142-701a-afbc-79e6b1189188","name":"Andi M Fadhilul Asyam Hafid","nisn":"213","gender":"male","graduation_year":2012,"location":"non-makassar","ethnicity":null,"domicile":null,"address":"Vida View Apartment, Jl. Topaz Raya, Masale, Panakkukang, Masale, Panakkukang, Kota Makassar, Sulawesi Selatan 90231","profession":null,"position":null,"hobby":null,"contact_number":"0811447077","email":"andiilul728@gmail.com","image_url":null}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -505,34 +609,45 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      location:
+      search_title:
         custom: []
-        name: location
-        description: ''
+        name: search_title
+        description: 'Must not be greater than 255 characters.'
         required: false
-        example: architecto
+        example: b
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         deprecated: false
-      from:
+      search_location:
         custom: []
-        name: from
-        description: 'or restrict with in:... if you have fixed enums. Must be a valid date.'
+        name: search_location
+        description: 'Must not be greater than 255 characters.'
         required: false
-        example: '2026-03-04T04:20:46'
+        example: 'n'
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         deprecated: false
-      to:
+      date_from:
         custom: []
-        name: to
-        description: 'Must be a valid date. Must be a date after or equal to <code>from</code>.'
+        name: date_from
+        description: 'Must be a valid date.'
         required: false
-        example: '2052-03-27'
+        example: '2026-03-07T23:52:34'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+      date_to:
+        custom: []
+        name: date_to
+        description: 'Must be a valid date. Must be a date after or equal to <code>date_from</code>.'
+        required: false
+        example: '2052-03-30'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -550,9 +665,10 @@ endpoints:
         nullable: true
         deprecated: false
     cleanBodyParameters:
-      location: architecto
-      from: '2026-03-04T04:20:46'
-      to: '2052-03-27'
+      search_title: b
+      search_location: 'n'
+      date_from: '2026-03-07T23:52:34'
+      date_to: '2052-03-30'
       per_page: 22
     fileParameters: []
     responses:
@@ -596,14 +712,14 @@ endpoints:
         name: activity_id
         description: 'The ID of the activity.'
         required: true
-        example: architecto
+        example: 019cc116-16d5-712e-958a-533a2d8300bb
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      activity_id: architecto
+      activity_id: 019cc116-16d5-712e-958a-533a2d8300bb
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -612,11 +728,8 @@ endpoints:
     responses:
       -
         custom: []
-        status: 404
-        content: |-
-          {
-              "message": "No query results for model [App\\Models\\Activity] architecto"
-          }
+        status: 200
+        content: '{"status":"success","data":{"id":"019cc116-16d5-712e-958a-533a2d8300bb","title":"Penyerangan Onigashima","short_description":"Penyerangan Onigashima Malam Festival Kagura","description":"<p>This is Description<\/p><p><u>This is Underlined Description<\/u><\/p><p><strong>This is Description in Bold<\/strong><\/p><p><strong><em>This is Description in italic<\/em><\/strong><\/p>","date":"2026-03-05T00:00:00.000000Z","location":"Onigashima","image_url":null}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -670,7 +783,7 @@ endpoints:
       -
         custom: []
         status: 200
-        content: '{"status":"success","data":{"current_page":1,"data":[],"first_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members?page=1","from":null,"last_page":1,"last_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members?page=1","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"next_page_url":null,"path":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members","per_page":1,"prev_page_url":null,"to":null,"total":0}}'
+        content: '{"status":"success","data":{"current_page":1,"data":[{"id":"019cc117-672d-7058-91b8-b307e100fbee","name":"Violet Evergarden","email":"violet@gmail.com","phone":"128128128","image_url":null,"created_at":"2026-03-06T03:01:02.000000Z","updated_at":"2026-03-06T03:01:02.000000Z"}],"first_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members?page=1","from":1,"last_page":1,"last_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members?page=1","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"next_page_url":null,"path":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/members","per_page":1,"prev_page_url":null,"to":1,"total":1}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -707,14 +820,14 @@ endpoints:
         name: member_id
         description: 'The ID of the member.'
         required: true
-        example: architecto
+        example: 019cc117-672d-7058-91b8-b307e100fbee
         type: string
         enumValues: []
         exampleWasSpecified: false
         nullable: false
         deprecated: false
     cleanUrlParameters:
-      member_id: architecto
+      member_id: 019cc117-672d-7058-91b8-b307e100fbee
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -723,11 +836,8 @@ endpoints:
     responses:
       -
         custom: []
-        status: 404
-        content: |-
-          {
-              "message": "The route api/v1/members/architecto could not be found."
-          }
+        status: 200
+        content: '{"status":"success","data":{"id":"019cc117-672d-7058-91b8-b307e100fbee","name":"Violet Evergarden","email":"violet@gmail.com","phone":"128128128","image_url":null,"created_at":"2026-03-06T03:01:02.000000Z","updated_at":"2026-03-06T03:01:02.000000Z"}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -751,7 +861,7 @@ endpoints:
       subgroupDescription: ''
       title: |-
         GET /api/v1/mitra
-        Public list (pagination)
+        Public list with pagination + optional search by name
       description: ''
       authenticated: false
       deprecated: false
@@ -763,25 +873,37 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
+      search_name:
+        custom: []
+        name: search_name
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: b
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
       per_page:
         custom: []
         name: per_page
         description: 'Must be at least 1. Must not be greater than 100.'
         required: false
-        example: 1
+        example: 22
         type: integer
         enumValues: []
         exampleWasSpecified: false
         nullable: true
         deprecated: false
     cleanBodyParameters:
-      per_page: 1
+      search_name: b
+      per_page: 22
     fileParameters: []
     responses:
       -
         custom: []
         status: 200
-        content: '{"status":"success","data":{"current_page":1,"data":[],"first_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra?page=1","from":null,"last_page":1,"last_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra?page=1","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"next_page_url":null,"path":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra","per_page":1,"prev_page_url":null,"to":null,"total":0}}'
+        content: '{"status":"success","data":{"current_page":1,"data":[],"first_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra?page=1","from":null,"last_page":1,"last_page_url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra?page=1","links":[{"url":null,"label":"&laquo; Previous","page":null,"active":false},{"url":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra?page=1","label":"1","page":1,"active":true},{"url":null,"label":"Next &raquo;","page":null,"active":false}],"next_page_url":null,"path":"http:\/\/ika-sma-6-admin-dashboard.test\/api\/v1\/mitra","per_page":22,"prev_page_url":null,"to":null,"total":0}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json

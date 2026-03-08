@@ -15,8 +15,11 @@ class AlumniController extends Controller
     public function index(Request $request)
     {
         $validated = $request->validate([
+            'search_name' => ['nullable', 'string', 'max:255'],
+            'search_nisn' => ['nullable', 'string', 'max:255'],
             'graduation_year' => ['nullable', 'integer'],
             'location' => ['nullable', 'in:makassar,non-makassar'],
+            'gender' => ['nullable', 'in:male,female'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
         ]);
 
@@ -25,6 +28,7 @@ class AlumniController extends Controller
                 'id',
                 'name',
                 'nisn',
+                'gender',
                 'graduation_year',
                 'location',
                 'ethnicity',
@@ -33,20 +37,64 @@ class AlumniController extends Controller
                 'position',
                 'hobby',
                 'contact_number',
+                'email',
                 'image_path',
             ])
-            ->when($validated['graduation_year'] ?? null, fn ($q, $year) =>
+            ->when(
+                $validated['search_name'] ?? null,
+                fn ($q, $searchName) =>
+                $q->where('name', 'like', '%' . $searchName . '%')
+            )
+            ->when(
+                $validated['search_nisn'] ?? null,
+                fn ($q, $searchNisn) =>
+                $q->where('nisn', 'like', '%' . $searchNisn . '%')
+            )
+            ->when(
+                $validated['graduation_year'] ?? null,
+                fn ($q, $year) =>
                 $q->where('graduation_year', $year)
             )
-            ->when($validated['location'] ?? null, fn ($q, $location) =>
+            ->when(
+                $validated['location'] ?? null,
+                fn ($q, $location) =>
                 $q->where('location', $location)
+            )
+            ->when(
+                $validated['gender'] ?? null,
+                fn ($q, $gender) =>
+                $q->where('gender', $gender)
             )
             ->orderByDesc('graduation_year')
             ->orderBy('name');
 
+        $paginator = $query->paginate($validated['per_page'] ?? 15)
+            ->appends($request->query());
+
+        $paginator->getCollection()->transform(function (Alumni $alumni) {
+            return [
+                'id' => $alumni->id,
+                'name' => $alumni->name,
+                'nisn' => $alumni->nisn,
+                'gender' => $alumni->gender,
+                'graduation_year' => $alumni->graduation_year,
+                'location' => $alumni->location,
+                'ethnicity' => $alumni->ethnicity,
+                'domicile' => $alumni->domicile,
+                'profession' => $alumni->profession,
+                'position' => $alumni->position,
+                'hobby' => $alumni->hobby,
+                'contact_number' => $alumni->contact_number,
+                'email' => $alumni->email,
+                'image_url' => $alumni->image_path
+                    ? asset('storage/' . $alumni->image_path)
+                    : null,
+            ];
+        });
+
         return response()->json([
             'status' => 'success',
-            'data' => $query->paginate($validated['per_page'] ?? 15),
+            'data' => $paginator,
         ]);
     }
 
@@ -62,6 +110,7 @@ class AlumniController extends Controller
                 'id' => $alumni->id,
                 'name' => $alumni->name,
                 'nisn' => $alumni->nisn,
+                'gender' => $alumni->gender,
                 'graduation_year' => $alumni->graduation_year,
                 'location' => $alumni->location,
                 'ethnicity' => $alumni->ethnicity,
@@ -71,6 +120,7 @@ class AlumniController extends Controller
                 'position' => $alumni->position,
                 'hobby' => $alumni->hobby,
                 'contact_number' => $alumni->contact_number,
+                'email' => $alumni->email,
                 'image_url' => $alumni->image_path
                     ? asset('storage/' . $alumni->image_path)
                     : null,

@@ -84,8 +84,7 @@
                                 <a href="#endpoints-POSTapi-v1-auth-logout-all">POST api/v1/auth/logout-all</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-funds-summary">
-                                <a href="#endpoints-GETapi-v1-funds-summary">GET /api/v1/funds/summary
-Response: total pemasukan, total pengeluaran, total keseluruhan (net) dalam range tanggal.</a>
+                                <a href="#endpoints-GETapi-v1-funds-summary">GET /api/v1/funds/summary</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-news">
                                 <a href="#endpoints-GETapi-v1-news">GET /api/v1/news
@@ -121,7 +120,7 @@ Public detail by id (uuid)</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-mitra">
                                 <a href="#endpoints-GETapi-v1-mitra">GET /api/v1/mitra
-Public list (pagination)</a>
+Public list with pagination + optional search by name</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-v1-mitra--slug-">
                                 <a href="#endpoints-GETapi-v1-mitra--slug-">GET /api/v1/mitra/{slug}
@@ -138,7 +137,7 @@ Public detail by slug</a>
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: March 4, 2026</li>
+        <li>Last updated: March 7, 2026</li>
     </ul>
 </div>
 
@@ -667,13 +666,22 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-GETapi-v1-funds-summary">GET /api/v1/funds/summary
-Response: total pemasukan, total pengeluaran, total keseluruhan (net) dalam range tanggal.</h2>
+                    <h2 id="endpoints-GETapi-v1-funds-summary">GET /api/v1/funds/summary</h2>
 
 <p>
 </p>
 
-
+<p>Query params:</p>
+<ul>
+<li>from   (nullable, YYYY-MM-DD)</li>
+<li>until  (nullable, YYYY-MM-DD)</li>
+<li>year   (nullable, integer)</li>
+</ul>
+<p>Response:</p>
+<ul>
+<li>summary_periode  =&gt; sesuai range from/until</li>
+<li>summary_tahunan  =&gt; sesuai year</li>
+</ul>
 
 <span id="example-requests-GETapi-v1-funds-summary">
 <blockquote>Example request:</blockquote>
@@ -685,8 +693,9 @@ Response: total pemasukan, total pengeluaran, total keseluruhan (net) dalam rang
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"from\": \"2026-03-04T04:20:46\",
-    \"until\": \"2026-03-04T04:20:46\"
+    \"from\": \"2026-03-07T23:52:33\",
+    \"until\": \"2026-03-07T23:52:33\",
+    \"year\": 1
 }"
 </code></pre></div>
 
@@ -702,8 +711,9 @@ const headers = {
 };
 
 let body = {
-    "from": "2026-03-04T04:20:46",
-    "until": "2026-03-04T04:20:46"
+    "from": "2026-03-07T23:52:33",
+    "until": "2026-03-07T23:52:33",
+    "year": 1
 };
 
 fetch(url, {
@@ -716,7 +726,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-v1-funds-summary">
             <blockquote>
-            <p>Example response (200):</p>
+            <p>Example response (422):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -728,13 +738,11 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;status&quot;: &quot;success&quot;,
-    &quot;data&quot;: {
-        &quot;from&quot;: &quot;2026-03-04T04:20:46&quot;,
-        &quot;until&quot;: &quot;2026-03-04T04:20:46&quot;,
-        &quot;total_pemasukan&quot;: 0,
-        &quot;total_pengeluaran&quot;: 0,
-        &quot;total_keseluruhan&quot;: 0
+    &quot;message&quot;: &quot;The year field must be at least 2000.&quot;,
+    &quot;errors&quot;: {
+        &quot;year&quot;: [
+            &quot;The year field must be at least 2000.&quot;
+        ]
     }
 }</code>
  </pre>
@@ -818,10 +826,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="from"                data-endpoint="GETapi-v1-funds-summary"
-               value="2026-03-04T04:20:46"
+               value="2026-03-07T23:52:33"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-03-04T04:20:46</code></p>
+<p>Must be a valid date. Example: <code>2026-03-07T23:52:33</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>until</code></b>&nbsp;&nbsp;
@@ -830,10 +838,22 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="until"                data-endpoint="GETapi-v1-funds-summary"
-               value="2026-03-04T04:20:46"
+               value="2026-03-07T23:52:33"
                data-component="body">
     <br>
-<p>YYYY-MM-DD. Must be a valid date. Example: <code>2026-03-04T04:20:46</code></p>
+<p>Must be a valid date. Example: <code>2026-03-07T23:52:33</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>year</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="year"                data-endpoint="GETapi-v1-funds-summary"
+               value="1"
+               data-component="body">
+    <br>
+<p>Must be at least 2000. Must not be greater than 2100. Example: <code>1</code></p>
         </div>
         </form>
 
@@ -855,7 +875,11 @@ Public list (ONLY published). No content.</h2>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"per_page\": 1
+    \"per_page\": 1,
+    \"search_title\": \"n\",
+    \"search_author\": \"g\",
+    \"date_from\": \"2026-03-07T23:52:33\",
+    \"date_to\": \"2052-03-30\"
 }"
 </code></pre></div>
 
@@ -871,7 +895,11 @@ const headers = {
 };
 
 let body = {
-    "per_page": 1
+    "per_page": 1,
+    "search_title": "n",
+    "search_author": "g",
+    "date_from": "2026-03-07T23:52:33",
+    "date_to": "2052-03-30"
 };
 
 fetch(url, {
@@ -899,22 +927,9 @@ access-control-allow-origin: *
     &quot;status&quot;: &quot;success&quot;,
     &quot;data&quot;: {
         &quot;current_page&quot;: 1,
-        &quot;data&quot;: [
-            {
-                &quot;id&quot;: 1,
-                &quot;title&quot;: &quot;Berita Terkini&quot;,
-                &quot;slug&quot;: &quot;berita-terkini&quot;,
-                &quot;excerpt&quot;: &quot;cuma berita sampel&quot;,
-                &quot;published_at&quot;: &quot;2026-03-04T04:20:35.000000Z&quot;,
-                &quot;og_image_url&quot;: null,
-                &quot;author&quot;: {
-                    &quot;id&quot;: 1,
-                    &quot;name&quot;: &quot;Super Admin&quot;
-                }
-            }
-        ],
+        &quot;data&quot;: [],
         &quot;first_page_url&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/news?page=1&quot;,
-        &quot;from&quot;: 1,
+        &quot;from&quot;: null,
         &quot;last_page&quot;: 1,
         &quot;last_page_url&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/news?page=1&quot;,
         &quot;links&quot;: [
@@ -941,8 +956,8 @@ access-control-allow-origin: *
         &quot;path&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/news&quot;,
         &quot;per_page&quot;: 1,
         &quot;prev_page_url&quot;: null,
-        &quot;to&quot;: 1,
-        &quot;total&quot;: 1
+        &quot;to&quot;: null,
+        &quot;total&quot;: 0
     }
 }</code>
  </pre>
@@ -1030,6 +1045,54 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>Must be at least 1. Must not be greater than 100. Example: <code>1</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>search_title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="search_title"                data-endpoint="GETapi-v1-news"
+               value="n"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>n</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>search_author</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="search_author"                data-endpoint="GETapi-v1-news"
+               value="g"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>g</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>date_from</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="date_from"                data-endpoint="GETapi-v1-news"
+               value="2026-03-07T23:52:33"
+               data-component="body">
+    <br>
+<p>Must be a valid date. Example: <code>2026-03-07T23:52:33</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>date_to</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="date_to"                data-endpoint="GETapi-v1-news"
+               value="2052-03-30"
+               data-component="body">
+    <br>
+<p>Must be a valid date. Must be a date after or equal to <code>date_from</code>. Example: <code>2052-03-30</code></p>
         </div>
         </form>
 
@@ -1211,8 +1274,11 @@ Public list with filters &amp; pagination</h2>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
+    \"search_name\": \"b\",
+    \"search_nisn\": \"n\",
     \"graduation_year\": 16,
     \"location\": \"makassar\",
+    \"gender\": \"male\",
     \"per_page\": 22
 }"
 </code></pre></div>
@@ -1229,8 +1295,11 @@ const headers = {
 };
 
 let body = {
+    "search_name": "b",
+    "search_nisn": "n",
     "graduation_year": 16,
     "location": "makassar",
+    "gender": "male",
     "per_page": 22
 };
 
@@ -1367,6 +1436,30 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                                 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>search_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="search_name"                data-endpoint="GETapi-v1-alumni"
+               value="b"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>b</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>search_nisn</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="search_nisn"                data-endpoint="GETapi-v1-alumni"
+               value="n"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>n</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>graduation_year</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
@@ -1391,6 +1484,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Example: <code>makassar</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>makassar</code></li> <li><code>non-makassar</code></li></ul>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>gender</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="gender"                data-endpoint="GETapi-v1-alumni"
+               value="male"
+               data-component="body">
+    <br>
+<p>Example: <code>male</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>male</code></li> <li><code>female</code></li></ul>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -1461,6 +1568,7 @@ access-control-allow-origin: *
         &quot;id&quot;: &quot;019c3926-a142-701a-afbc-79e6b1189188&quot;,
         &quot;name&quot;: &quot;Andi M Fadhilul Asyam Hafid&quot;,
         &quot;nisn&quot;: &quot;213&quot;,
+        &quot;gender&quot;: &quot;male&quot;,
         &quot;graduation_year&quot;: 2012,
         &quot;location&quot;: &quot;non-makassar&quot;,
         &quot;ethnicity&quot;: null,
@@ -1470,6 +1578,7 @@ access-control-allow-origin: *
         &quot;position&quot;: null,
         &quot;hobby&quot;: null,
         &quot;contact_number&quot;: &quot;0811447077&quot;,
+        &quot;email&quot;: &quot;andiilul728@gmail.com&quot;,
         &quot;image_url&quot;: null
     }
 }</code>
@@ -1579,9 +1688,10 @@ Public list with filters &amp; pagination</h2>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"location\": \"architecto\",
-    \"from\": \"2026-03-04T04:20:46\",
-    \"to\": \"2052-03-27\",
+    \"search_title\": \"b\",
+    \"search_location\": \"n\",
+    \"date_from\": \"2026-03-07T23:52:34\",
+    \"date_to\": \"2052-03-30\",
     \"per_page\": 22
 }"
 </code></pre></div>
@@ -1598,9 +1708,10 @@ const headers = {
 };
 
 let body = {
-    "location": "architecto",
-    "from": "2026-03-04T04:20:46",
-    "to": "2052-03-27",
+    "search_title": "b",
+    "search_location": "n",
+    "date_from": "2026-03-07T23:52:34",
+    "date_to": "2052-03-30",
     "per_page": 22
 };
 
@@ -1737,40 +1848,52 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                                 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>location</code></b>&nbsp;&nbsp;
+            <b style="line-height: 2;"><code>search_title</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
 <i>optional</i> &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="location"                data-endpoint="GETapi-v1-activity"
-               value="architecto"
+                              name="search_title"                data-endpoint="GETapi-v1-activity"
+               value="b"
                data-component="body">
     <br>
-<p>Example: <code>architecto</code></p>
+<p>Must not be greater than 255 characters. Example: <code>b</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>from</code></b>&nbsp;&nbsp;
+            <b style="line-height: 2;"><code>search_location</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
 <i>optional</i> &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="from"                data-endpoint="GETapi-v1-activity"
-               value="2026-03-04T04:20:46"
+                              name="search_location"                data-endpoint="GETapi-v1-activity"
+               value="n"
                data-component="body">
     <br>
-<p>or restrict with in:... if you have fixed enums. Must be a valid date. Example: <code>2026-03-04T04:20:46</code></p>
+<p>Must not be greater than 255 characters. Example: <code>n</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>to</code></b>&nbsp;&nbsp;
+            <b style="line-height: 2;"><code>date_from</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
 <i>optional</i> &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="to"                data-endpoint="GETapi-v1-activity"
-               value="2052-03-27"
+                              name="date_from"                data-endpoint="GETapi-v1-activity"
+               value="2026-03-07T23:52:34"
                data-component="body">
     <br>
-<p>Must be a valid date. Must be a date after or equal to <code>from</code>. Example: <code>2052-03-27</code></p>
+<p>Must be a valid date. Example: <code>2026-03-07T23:52:34</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>date_to</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="date_to"                data-endpoint="GETapi-v1-activity"
+               value="2052-03-30"
+               data-component="body">
+    <br>
+<p>Must be a valid date. Must be a date after or equal to <code>date_from</code>. Example: <code>2052-03-30</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
@@ -1800,14 +1923,14 @@ Public detail</h2>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://ika-sma-6-admin-dashboard.test/api/v1/activity/architecto" \
+    --get "http://ika-sma-6-admin-dashboard.test/api/v1/activity/019cc116-16d5-712e-958a-533a2d8300bb" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://ika-sma-6-admin-dashboard.test/api/v1/activity/architecto"
+    "http://ika-sma-6-admin-dashboard.test/api/v1/activity/019cc116-16d5-712e-958a-533a2d8300bb"
 );
 
 const headers = {
@@ -1824,7 +1947,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-v1-activity--activity_id-">
             <blockquote>
-            <p>Example response (404):</p>
+            <p>Example response (200):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -1836,7 +1959,16 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;No query results for model [App\\Models\\Activity] architecto&quot;
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: &quot;019cc116-16d5-712e-958a-533a2d8300bb&quot;,
+        &quot;title&quot;: &quot;Penyerangan Onigashima&quot;,
+        &quot;short_description&quot;: &quot;Penyerangan Onigashima Malam Festival Kagura&quot;,
+        &quot;description&quot;: &quot;&lt;p&gt;This is Description&lt;/p&gt;&lt;p&gt;&lt;u&gt;This is Underlined Description&lt;/u&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;This is Description in Bold&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;em&gt;This is Description in italic&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;&quot;,
+        &quot;date&quot;: &quot;2026-03-05T00:00:00.000000Z&quot;,
+        &quot;location&quot;: &quot;Onigashima&quot;,
+        &quot;image_url&quot;: null
+    }
 }</code>
  </pre>
     </span>
@@ -1919,10 +2051,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="activity_id"                data-endpoint="GETapi-v1-activity--activity_id-"
-               value="architecto"
+               value="019cc116-16d5-712e-958a-533a2d8300bb"
                data-component="url">
     <br>
-<p>The ID of the activity. Example: <code>architecto</code></p>
+<p>The ID of the activity. Example: <code>019cc116-16d5-712e-958a-533a2d8300bb</code></p>
             </div>
                     </form>
 
@@ -1988,9 +2120,19 @@ access-control-allow-origin: *
     &quot;status&quot;: &quot;success&quot;,
     &quot;data&quot;: {
         &quot;current_page&quot;: 1,
-        &quot;data&quot;: [],
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: &quot;019cc117-672d-7058-91b8-b307e100fbee&quot;,
+                &quot;name&quot;: &quot;Violet Evergarden&quot;,
+                &quot;email&quot;: &quot;violet@gmail.com&quot;,
+                &quot;phone&quot;: &quot;128128128&quot;,
+                &quot;image_url&quot;: null,
+                &quot;created_at&quot;: &quot;2026-03-06T03:01:02.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2026-03-06T03:01:02.000000Z&quot;
+            }
+        ],
         &quot;first_page_url&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/members?page=1&quot;,
-        &quot;from&quot;: null,
+        &quot;from&quot;: 1,
         &quot;last_page&quot;: 1,
         &quot;last_page_url&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/members?page=1&quot;,
         &quot;links&quot;: [
@@ -2017,8 +2159,8 @@ access-control-allow-origin: *
         &quot;path&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/members&quot;,
         &quot;per_page&quot;: 1,
         &quot;prev_page_url&quot;: null,
-        &quot;to&quot;: null,
-        &quot;total&quot;: 0
+        &quot;to&quot;: 1,
+        &quot;total&quot;: 1
     }
 }</code>
  </pre>
@@ -2123,14 +2265,14 @@ Public detail by id (uuid)</h2>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://ika-sma-6-admin-dashboard.test/api/v1/members/architecto" \
+    --get "http://ika-sma-6-admin-dashboard.test/api/v1/members/019cc117-672d-7058-91b8-b307e100fbee" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://ika-sma-6-admin-dashboard.test/api/v1/members/architecto"
+    "http://ika-sma-6-admin-dashboard.test/api/v1/members/019cc117-672d-7058-91b8-b307e100fbee"
 );
 
 const headers = {
@@ -2147,7 +2289,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-v1-members--member_id-">
             <blockquote>
-            <p>Example response (404):</p>
+            <p>Example response (200):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -2159,7 +2301,16 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;The route api/v1/members/architecto could not be found.&quot;
+    &quot;status&quot;: &quot;success&quot;,
+    &quot;data&quot;: {
+        &quot;id&quot;: &quot;019cc117-672d-7058-91b8-b307e100fbee&quot;,
+        &quot;name&quot;: &quot;Violet Evergarden&quot;,
+        &quot;email&quot;: &quot;violet@gmail.com&quot;,
+        &quot;phone&quot;: &quot;128128128&quot;,
+        &quot;image_url&quot;: null,
+        &quot;created_at&quot;: &quot;2026-03-06T03:01:02.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2026-03-06T03:01:02.000000Z&quot;
+    }
 }</code>
  </pre>
     </span>
@@ -2242,15 +2393,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="member_id"                data-endpoint="GETapi-v1-members--member_id-"
-               value="architecto"
+               value="019cc117-672d-7058-91b8-b307e100fbee"
                data-component="url">
     <br>
-<p>The ID of the member. Example: <code>architecto</code></p>
+<p>The ID of the member. Example: <code>019cc117-672d-7058-91b8-b307e100fbee</code></p>
             </div>
                     </form>
 
                     <h2 id="endpoints-GETapi-v1-mitra">GET /api/v1/mitra
-Public list (pagination)</h2>
+Public list with pagination + optional search by name</h2>
 
 <p>
 </p>
@@ -2267,7 +2418,8 @@ Public list (pagination)</h2>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"per_page\": 1
+    \"search_name\": \"b\",
+    \"per_page\": 22
 }"
 </code></pre></div>
 
@@ -2283,7 +2435,8 @@ const headers = {
 };
 
 let body = {
-    "per_page": 1
+    "search_name": "b",
+    "per_page": 22
 };
 
 fetch(url, {
@@ -2338,7 +2491,7 @@ access-control-allow-origin: *
         ],
         &quot;next_page_url&quot;: null,
         &quot;path&quot;: &quot;http://ika-sma-6-admin-dashboard.test/api/v1/mitra&quot;,
-        &quot;per_page&quot;: 1,
+        &quot;per_page&quot;: 22,
         &quot;prev_page_url&quot;: null,
         &quot;to&quot;: null,
         &quot;total&quot;: 0
@@ -2419,16 +2572,28 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                                 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>search_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="search_name"                data-endpoint="GETapi-v1-mitra"
+               value="b"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>b</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="per_page"                data-endpoint="GETapi-v1-mitra"
-               value="1"
+               value="22"
                data-component="body">
     <br>
-<p>Must be at least 1. Must not be greater than 100. Example: <code>1</code></p>
+<p>Must be at least 1. Must not be greater than 100. Example: <code>22</code></p>
         </div>
         </form>
 

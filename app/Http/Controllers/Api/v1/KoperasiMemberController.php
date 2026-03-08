@@ -32,7 +32,7 @@ class KoperasiMemberController extends Controller
 
         $paginator = $query->paginate($validated['per_page'] ?? 15);
 
-        $paginator->getCollection()->transform(function (KoperasiMember $m) {
+        $items = $paginator->getCollection()->map(function (KoperasiMember $m) {
             return [
                 'id' => $m->id,
                 'name' => $m->name,
@@ -42,11 +42,18 @@ class KoperasiMemberController extends Controller
                 'created_at' => $m->created_at?->toISOString(),
                 'updated_at' => $m->updated_at?->toISOString(),
             ];
-        });
+        })->values();
 
         return response()->json([
             'status' => 'success',
-            'data' => $paginator,
+            'data' => $items,
+            'pagination' => [
+                'current_page' => $paginator->currentPage(),
+                'last_page' => $paginator->lastPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'has_more_pages' => $paginator->hasMorePages(),
+            ],
         ]);
     }
 
