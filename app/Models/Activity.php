@@ -22,7 +22,7 @@ class Activity extends Model
         'description',
         'date',
         'location',
-        'image',
+        'image_path',
         'created_by',
         'updated_by',
     ];

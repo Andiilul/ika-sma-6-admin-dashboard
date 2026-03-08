@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class InitialUsersSeeder extends Seeder
 {
@@ -12,10 +13,10 @@ class InitialUsersSeeder extends Seeder
     {
         // Super Admin
         User::updateOrCreate(
-            ['email' => 'superadmin@local.test'],
+            ['email' => env('INITIAL_SUPERADMIN_EMAIL', 'ika-superadmin@production.dev')],
             [
-                'name' => 'Super Admin',
-                'password' => 'password123', // auto-hash kalau model User cast password => 'hashed'
+                'name' => env('INITIAL_SUPERADMIN_NAME', 'Super Admin'),
+                'password' => Hash::make(env('INITIAL_SUPERADMIN_PASSWORD', 'ikasma6-superadminpw')),
                 'role' => UserRole::SuperAdmin,
                 'is_active' => true,
             ]
@@ -23,10 +24,10 @@ class InitialUsersSeeder extends Seeder
 
         // Admin
         User::updateOrCreate(
-            ['email' => 'admin@local.test'],
+            ['email' => env('INITIAL_ADMIN_EMAIL', 'hamzah.ancha@gmail.com')],
             [
-                'name' => 'Admin',
-                'password' => 'password123',
+                'name' => env('INITIAL_ADMIN_NAME', 'Admin Hamzah IKA SMA 6'),
+                'password' => Hash::make(env('INITIAL_ADMIN_PASSWORD', 'admin1-password')),
                 'role' => UserRole::Admin,
                 'is_active' => true,
             ]
